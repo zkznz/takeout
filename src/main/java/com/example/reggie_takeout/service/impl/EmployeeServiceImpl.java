@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 
 @Service
 public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> implements EmployeeService {
@@ -34,7 +34,20 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         if(emp.getStatus()==0){
             return R.error("账号已禁用");
         }
-        request.setAttribute("employee",emp.getId());
+        request.getSession().setAttribute("employee",emp.getId());
         return R.success(emp);
+    }
+
+    @Override
+    public void add(HttpServletRequest request, Employee employee) {
+        Long empId=(Long) request.getSession().getAttribute("employee");
+        employee.setCreateUser(empId);
+        employee.setUpdateUser(empId);
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());
+        //设置初始密码
+        String md5Pwd=DigestUtils.md5DigestAsHex("123456".getBytes());
+        employee.setPassword(md5Pwd);
+        employeeMapper.insert(employee);
     }
 }

@@ -10,4 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface EmployeeService extends IService<Employee> {
    public R<Employee> login(HttpServletRequest request, EmployeeLoginDto employeeLoginDto);
+
+
+   void add(HttpServletRequest request, Employee employee);
 }

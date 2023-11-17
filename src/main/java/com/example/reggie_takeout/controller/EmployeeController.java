@@ -18,6 +18,12 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+    //添加员工
+    @PostMapping
+    public R<String> add(HttpServletRequest request,@RequestBody Employee employee){
+        employeeService.add(request,employee);
+        return R.success("添加成功");
+    }
     @PostMapping("/login")
     public R <Employee> login(HttpServletRequest request, @RequestBody EmployeeLoginDto employeeLoginDto){
        return employeeService.login(request, employeeLoginDto);
