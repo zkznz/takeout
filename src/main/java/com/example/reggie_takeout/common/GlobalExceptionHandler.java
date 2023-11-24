@@ -1,10 +1,16 @@
 package com.example.reggie_takeout.common;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 
 
+@ControllerAdvice(annotations = {RestController.class, Controller.class})
+@ResponseBody
 public class GlobalExceptionHandler {
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public R<String> exceptionHandler(SQLIntegrityConstraintViolationException ex){
@@ -17,8 +23,8 @@ public class GlobalExceptionHandler {
     }
 
     //处理自定义异常
-    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public R<String> CustomExceptionHandler(CustomException ex){
+    @ExceptionHandler(CustomException.class)
+    public R<String> exceptionHandler(CustomException ex){
         return R.error(ex.getMessage());
     }
 }

@@ -34,5 +34,18 @@ public class CategoryController{
         categoryService.page(pageInfo,queryWrapper);
         return R.success(pageInfo);
     }
+    //删除分类
+    @DeleteMapping
+    public R<String> delete(Long ids){
+        categoryService.remove(ids);
+        return R.success("删除分类成功");
+    }
 
+    @PutMapping
+    public R<String> update(HttpServletRequest request,@RequestBody Category category){
+        Long empId=(Long) request.getSession().getAttribute("employee");
+        category.setUpdateUser(empId);
+        categoryService.updateById(category);
+        return R.success("修改分类信息成功");
+    }
 }
