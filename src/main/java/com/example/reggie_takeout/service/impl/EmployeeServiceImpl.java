@@ -2,6 +2,7 @@ package com.example.reggie_takeout.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.reggie_takeout.common.BaseContext;
 import com.example.reggie_takeout.common.R;
 import com.example.reggie_takeout.dto.EmployeeLoginDto;
 import com.example.reggie_takeout.entity.Employee;

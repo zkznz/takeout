@@ -3,6 +3,7 @@ package com.example.reggie_takeout.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.reggie_takeout.common.BaseContext;
 import com.example.reggie_takeout.common.R;
 import com.example.reggie_takeout.dto.EmployeeLoginDto;
 import com.example.reggie_takeout.entity.Employee;
@@ -57,5 +58,15 @@ public class EmployeeController {
         employee.setUpdateTime(LocalDateTime.now());
         employeeService.updateById(employee);
         return R.success("员工信息修改成功");
+    }
+    //通过id查找员工信息
+    @GetMapping("/{id}")
+    public R<Employee> getById(@PathVariable Long id){
+        Employee employee= employeeService.getById(id);
+        if(employee!=null){
+            return R.success(employee);
+        }
+        else
+            return R.error("没有查询到对应员工信息");
     }
 }
