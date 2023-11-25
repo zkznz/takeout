@@ -10,4 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface DishService extends IService<Dish> {
     void saveWithFlavor(HttpServletRequest request, DishDto dishDto);
+
+    DishDto getByIdWithFlavor(Long id);
 }
