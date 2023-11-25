@@ -12,4 +12,6 @@ public interface DishService extends IService<Dish> {
     void saveWithFlavor(HttpServletRequest request, DishDto dishDto);
 
     DishDto getByIdWithFlavor(Long id);
+
+    void updateWithFlavor(HttpServletRequest request, DishDto dishDto);
 }

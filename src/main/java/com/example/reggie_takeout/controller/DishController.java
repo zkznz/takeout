@@ -62,4 +62,11 @@ public class DishController {
        DishDto dishDto= dishService.getByIdWithFlavor(id);
        return R.success(dishDto);
     }
+
+    @PutMapping
+    public R<String> update(HttpServletRequest request, @RequestBody DishDto dishDto){
+
+        dishService.updateWithFlavor(request,dishDto);
+        return R.success("修改菜品成功");
+    }
 }

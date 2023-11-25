@@ -44,6 +44,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
     @Override
     public DishDto getByIdWithFlavor(Long id) {
+
         //查询菜品基本信息
         Dish dish=this.getById(id);
         DishDto dishDto=new DishDto();
@@ -54,5 +55,25 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         List<DishFlavor> flavorList = dishFlavorService.list(queryWrapper);
         dishDto.setFlavors(flavorList);
         return dishDto;
+    }
+
+    @Override
+    public void updateWithFlavor(HttpServletRequest request, DishDto dishDto) {
+        Long empId=(Long) request.getSession().getAttribute("employee");
+        //保存菜品基本信息
+        dishDto.setUpdateUser(empId);
+        this.updateById(dishDto);
+        //先删除后添加
+        LambdaQueryWrapper<DishFlavor> queryWrapper=new LambdaQueryWrapper<>();
+        queryWrapper.eq(DishFlavor::getDishId,dishDto.getId());
+        dishFlavorService.remove(queryWrapper);
+        List<DishFlavor> flavors = dishDto.getFlavors();
+       flavors= flavors.stream().map((item)->{
+            item.setDishId(dishDto.getId());
+            item.setCreateUser(empId);
+            item.setUpdateUser(empId);
+            return item;
+        }).collect(Collectors.toList());
+       dishFlavorService.saveBatch(flavors);
     }
 }
